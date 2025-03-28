@@ -1,0 +1,26 @@
+{
+    "name": "web-mavens/triki-obfuscator",
+    "description": "Laravel package for database obfuscation using Triki",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "WebMavens\\Triki\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "amit-wm",
+            "email": "amit@webmavens.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "WebMavens\\Triki\\TrikiServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {}
+}
