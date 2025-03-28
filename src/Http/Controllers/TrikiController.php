@@ -66,7 +66,7 @@ class TrikiController extends Controller
             'filename' => 'required|string'
         ]);
 
-        $filePath = storage_path('app/obfuscated/' . $request->filename);
+        $filePath = storage_path('app/private/obfuscated/' . $request->filename);
 
         if (file_exists($filePath)) {
             try {
