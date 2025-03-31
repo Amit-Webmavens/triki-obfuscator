@@ -2,7 +2,7 @@
 
 use WebMavens\Triki\Http\Controllers\TrikiController;
 
-Route::group(['middleware' => ['web']], function () {
+Route::middleware(['web', 'triki.auth'])->group(function () {
     Route::get('triki/download', [TrikiController::class, 'index'])->name('index');
     Route::post('/triki/start-dump', [TrikiController::class, 'startDumpJob'])->name('triki.startDumpJob');
     Route::get('/triki/download-dump/{filename}', [TrikiController::class, 'downloadStoredDump'])->name('triki.download.stored');

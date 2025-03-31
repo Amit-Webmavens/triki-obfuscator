@@ -6,15 +6,24 @@ namespace WebMavens\Triki;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Routing\Router;
+use WebMavens\Triki\Http\Middleware\AuthMiddleware;
 
 class TrikiServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
+        $router = $this->app['router'];
+        $router->aliasMiddleware('triki.auth', AuthMiddleware::class);
+
         $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
         $this->loadViewsFrom(__DIR__ . '/views', 'triki');
 
         $packagePath = realpath(__DIR__ . '/../');
+
+        $this->publishes([
+            __DIR__ . '/config/triki.php' => config_path('triki.php'),
+        ], 'triki-config');
 
         // Ensure shard.yml exists in the package
         if (File::exists($packagePath . '/shard.yml')) {
@@ -31,7 +40,7 @@ class TrikiServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-
+        $this->mergeConfigFrom(__DIR__ . '/config/triki.php', 'triki');
     }
 
     private function getDefaultObfuscatorConfig(): string
