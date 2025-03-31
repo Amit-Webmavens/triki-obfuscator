@@ -46,7 +46,6 @@ class TrikiServiceProvider extends ServiceProvider
               },
               "failed_jobs" => :truncate,
               "jobs" => :truncate,
-              "migrations" => :keep,
             })
             obfuscator.fail_on_unspecified_columns = false
             obfuscator.globally_kept_columns = %w[id created_at updated_at]

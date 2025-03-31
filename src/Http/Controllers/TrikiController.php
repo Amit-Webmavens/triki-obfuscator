@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Exception;
 
 class TrikiController extends Controller
@@ -34,7 +34,7 @@ class TrikiController extends Controller
         return view('triki::triki', compact('tables', 'dumpFiles'));
     }
 
-    public function downloadStoredDump($filename): Response
+    public function downloadStoredDump($filename): BinaryFileResponse
     {
         $path = storage_path('app/private/obfuscated/' . $filename);
 
