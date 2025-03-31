@@ -31,6 +31,16 @@ DB_USERNAME=your_username
 DB_PASSWORD=your_password
 ```
 
+Ensure your `.env` file contains mail configuration:
+
+```
+MAIL_MAILER=
+MAIL_HOST=
+MAIL_PORT=
+MAIL_USERNAME=
+MAIL_PASSWORD=
+```
+
 ### Middleware Authentication Key
 
 To protect Triki routes, add an authentication key in your `.env` file(If you not set, it will be `web-mavens` by default):

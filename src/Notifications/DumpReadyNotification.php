@@ -38,7 +38,7 @@ class DumpReadyNotification extends Notification
     {
         return (new MailMessage)
                     ->line('Your Database Dump is Ready.')
-                    ->action('Download', url('/triki/download-dump'))
+                    ->action('Download', url('/triki/download'))
                     ->line('Thank you for using our application!');
     }
 
