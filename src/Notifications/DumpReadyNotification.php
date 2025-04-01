@@ -16,8 +16,10 @@ class DumpReadyNotification extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct()
-    {
+    public function __construct(
+        protected string $status,
+        protected ?string $errorMessage,
+    ) {
         //
     }
 
@@ -36,9 +38,18 @@ class DumpReadyNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
+        if ($this->status === 'success') {
+            return (new MailMessage)
+                        ->line('Your Database Dump is Ready.')
+                        ->action('Download', url('/triki/download'))
+                        ->line('Thank you for using our application!');
+        }
+
+        // If the status is 'failure', send the error message in the email
         return (new MailMessage)
-                    ->line('Your Database Dump is Ready.')
-                    ->action('Download', url('/triki/download'))
+                    ->line('There was an error while generating your Database Dump.')
+                    ->line("Error Message: {$this->errorMessage}")
+                    ->line('Please check the logs or try again later.')
                     ->line('Thank you for using our application!');
     }
 
@@ -50,7 +61,8 @@ class DumpReadyNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            'status'        => $this->status,
+            'error_message' => $this->errorMessage,
         ];
     }
 }

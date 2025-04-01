@@ -19,18 +19,23 @@ class TrikiController extends Controller
     public function index(): View
     {
         $database = env('DB_DATABASE');
+        $connection = env('DB_CONNECTION');
 
-        $tables = DB::select("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ?", [$database]);
+        if ($connection === 'pgsql') {
+            $tables = DB::select("SELECT tablename AS TABLE_NAME FROM pg_tables WHERE schemaname = 'public'");
+        } else {
+            $tables = DB::select("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ?", [$database]);
+        }
 
         $dumpFiles = [];
         $dumpDir = storage_path('app/private/obfuscated');
-
+    
         if (is_dir($dumpDir)) {
             $dumpFiles = array_filter(scandir($dumpDir), function ($file) use ($dumpDir) {
                 return is_file($dumpDir . DIRECTORY_SEPARATOR . $file) && str_ends_with($file, '.sql');
             });
         }
-
+    
         return view('triki::triki', compact('tables', 'dumpFiles'));
     }
 

@@ -15,14 +15,16 @@
                 <p id="status"></p>
                 <form id="dumpForm">
                 @csrf
-                @foreach($tables as $table)
+                @forelse($tables as $table)
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox"  name="tables[]" value="{{ $table->TABLE_NAME }}" id="{{ $table->TABLE_NAME }}" checked>
-                        <label class="form-check-label" for="{{ $table->TABLE_NAME }}">
-                            {{ $table->TABLE_NAME }}
+                        <input class="form-check-input" type="checkbox"  name="tables[]" value="{{ $table->TABLE_NAME ?? $table->table_name }}" id="{{ $table->TABLE_NAME ?? $table->table_name }}" checked>
+                        <label class="form-check-label" for="{{ $table->TABLE_NAME ?? $table->table_name }}">
+                            {{ $table->TABLE_NAME ?? $table->table_name }}
                         </label>
                     </div>
-                @endforeach
+                @empty
+                    <h2>It supports only mySQL and pgSQL databases.</h2>
+                @endforelse
                     <div class="mb-3 mt-3">
                         <input type="email" name="email" class="form-control"  placeholder="Enter your email for notification">
                     </div>
