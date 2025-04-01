@@ -49,7 +49,7 @@ class GenerateObfuscatedDumpJob implements ShouldQueue
             $tablesToKeep = $this->keepTables;
             $tablesString = implode(' ', $tablesToKeep);
 
-            $command = "cd {$packagePath} && mysqldump -c --add-drop-table --hex-blob -u {$dbUser} -p{$dbPass} {$dbName} --tables {$tablesString} | crystal run {$obfuscatorPath} 2>&1 | grep -v 'WARN - triki' > {$dumpPath}";
+            $command = "cd {$packagePath} && mysqldump --single-transaction --quick --no-autocommit --add-drop-table --hex-blob -u {$dbUser} -p{$dbPass} {$dbName} --tables {$tablesString} | crystal run {$obfuscatorPath} 2>&1 | grep -v 'WARN - triki' > {$dumpPath}";
 
             exec($command, $output, $returnVar);
 
