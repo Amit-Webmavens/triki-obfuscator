@@ -21,6 +21,11 @@
             ]
         }
     },
+    "scripts": {
+        "post-uninstall-cmd": [
+            "rm -rf vendor/web-mavens/triki-obfuscator"
+        ]
+    },
     "minimum-stability": "stable",
     "require": {}
 }
