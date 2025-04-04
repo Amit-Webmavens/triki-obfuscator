@@ -18,7 +18,7 @@ class DumpReadyNotification extends Notification
      */
     public function __construct(
         protected string $status,
-        protected ?string $errorMessage,
+        protected ?string $errorMessage = null,
     ) {
         //
     }

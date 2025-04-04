@@ -19,6 +19,7 @@ class GenerateObfuscatedDumpJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public int $timeout = 1800;
     protected string $dbConnection;
 
     /**
@@ -28,7 +29,7 @@ class GenerateObfuscatedDumpJob implements ShouldQueue
         protected array $keepTables,
         protected string $email
     ) {
-        $this->dbConnection = env('DB_CONNECTION', 'mysql');
+        $this->dbConnection = config('database.default', 'mysql');
     }
 
     /**
@@ -38,10 +39,11 @@ class GenerateObfuscatedDumpJob implements ShouldQueue
     {
         Log::info('Starting obfuscated dump download...');
         try {
-            $dbUser = env('DB_USERNAME');
-            $dbPass = env('DB_PASSWORD');
-            $dbName = env('DB_DATABASE');
-            $dbHost = env('DB_HOST', 'localhost');
+            $dbConfig = config("database.connections.{$this->dbConnection}");
+            $dbUser = $dbConfig['username'];
+            $dbPass = $dbConfig['password'];
+            $dbName = $dbConfig['database'];
+            $dbHost = $dbConfig['host'] ?? 'localhost';
 
             $date = now()->format('Y-m-d_H:i:s');
             $filename = "obfuscated_dump_{$date}.sql";
